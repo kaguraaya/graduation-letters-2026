@@ -11,9 +11,10 @@
   --gold: #b8893d;
   --line: rgba(32, 48, 45, 0.14);
   --shadow: 0 26px 70px rgba(17, 47, 43, 0.16);
+  --mobile-shadow: 0 18px 38px rgba(17, 47, 43, 0.12);
   --radius: 6px;
-  --serif: "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "SimSun", serif;
-  --sans: "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+  --serif: "FZSongYi-Z13S", "FZCuSong-B09S", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STZhongsong", "SimSun", serif;
+  --sans: "FZLanTingHeiS-DB-GB", "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
 }
 
 * {
@@ -25,6 +26,7 @@ html {
   background: var(--mist);
   color: var(--ink);
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -39,6 +41,7 @@ body {
     linear-gradient(120deg, rgba(184, 50, 63, 0.08) 0 18%, transparent 18% 100%),
     linear-gradient(135deg, #eef7f3 0%, #f9fbf2 48%, #e8f2f7 100%);
   background-size: 34px 34px, 34px 34px, auto, auto;
+  overflow-x: hidden;
 }
 
 body::before {
@@ -84,13 +87,16 @@ img {
 
 .reading-progress {
   position: fixed;
-  top: 0;
+  top: env(safe-area-inset-top, 0);
   left: 0;
-  z-index: 20;
+  z-index: 999;
   width: 0;
   height: 3px;
   background: linear-gradient(90deg, var(--lychee), var(--gold), var(--jade));
   box-shadow: 0 2px 12px rgba(184, 50, 63, 0.24);
+  pointer-events: none;
+  transform: translateZ(0);
+  will-change: width;
 }
 
 .topbar {
@@ -144,6 +150,7 @@ img {
 
 .brand-mark strong {
   font-size: 0.95rem;
+  font-weight: 800;
   line-height: 1.2;
 }
 
@@ -221,7 +228,7 @@ main {
   margin: 0 0 16px;
   color: var(--lychee);
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 h1 {
@@ -229,9 +236,11 @@ h1 {
   max-width: 820px;
   font-family: var(--serif);
   font-size: 5.8rem;
-  font-weight: 800;
+  font-weight: 900;
   line-height: 1.04;
   letter-spacing: 0;
+  color: #182a26;
+  text-wrap: balance;
 }
 
 .letter-hero h1 {
@@ -501,9 +510,10 @@ h1 {
   position: relative;
   z-index: 1;
   margin: 0 0 1.15em;
-  color: #2c3936;
+  color: #243530;
   font-family: var(--serif);
   font-size: 1.14rem;
+  font-weight: 600;
   line-height: 2.08;
   text-align: justify;
   text-justify: inter-ideograph;
@@ -513,7 +523,7 @@ h1 {
   margin-bottom: 1.3em;
   color: var(--lychee);
   font-size: 1.28rem;
-  font-weight: 700;
+  font-weight: 900;
   text-align: left;
 }
 
@@ -535,6 +545,7 @@ h1 {
 
 .wish-list strong {
   color: #174d46;
+  font-weight: 900;
 }
 
 .finance-page .wish-list strong {
@@ -558,7 +569,7 @@ h1 {
 
 .letter-signature p {
   font-size: 1.52rem;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .letter-signature time {
@@ -642,19 +653,33 @@ h1 {
 }
 
 @media (max-width: 640px) {
+  html {
+    scroll-padding-top: 68px;
+  }
+
   body {
     background-size: 24px 24px, 24px 24px, auto, auto;
+    padding-bottom: max(10px, env(safe-area-inset-bottom, 0));
+  }
+
+  .reading-progress {
+    top: auto;
+    bottom: max(0px, env(safe-area-inset-bottom, 0));
+    height: 5px;
+    box-shadow: 0 -2px 14px rgba(184, 50, 63, 0.28);
   }
 
   .topbar,
   main,
   .site-footer {
-    width: min(100% - 24px, 1180px);
+    width: min(100% - 22px, 1180px);
   }
 
   .topbar {
-    margin-top: 12px;
-    padding: 8px;
+    margin-top: 10px;
+    padding: 7px;
+    gap: 8px;
+    box-shadow: var(--mobile-shadow);
   }
 
   .brand-seal {
@@ -664,7 +689,7 @@ h1 {
   }
 
   .brand-mark strong {
-    max-width: 9.8em;
+    max-width: 10.4em;
     font-size: 0.86rem;
   }
 
@@ -677,14 +702,20 @@ h1 {
     gap: 4px;
   }
 
+  .icon-button {
+    width: 38px;
+    min-height: 38px;
+  }
+
   .ghost-link {
     padding: 0 8px;
   }
 
   .home-hero,
   .letter-hero {
-    gap: 28px;
-    padding-top: 44px;
+    gap: 22px;
+    padding-top: 30px;
+    padding-bottom: 28px;
   }
 
   .kicker {
@@ -693,35 +724,91 @@ h1 {
 
   h1,
   .letter-hero h1 {
-    font-size: 2.55rem;
+    font-size: 2.45rem;
+    line-height: 1.12;
   }
 
   .lead {
     margin-top: 18px;
     font-size: 1rem;
+    line-height: 1.82;
   }
 
   .letter-tile strong {
     font-size: 1.5rem;
   }
 
-  .hero-commands,
-  .letter-actions {
+  .hero-commands {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .letter-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    gap: 9px;
+    margin-top: 24px;
   }
 
   .primary-link,
   .secondary-link {
     width: 100%;
+    min-height: 44px;
+    padding: 0 10px;
+    font-size: 0.92rem;
+    white-space: nowrap;
+  }
+
+  .icon-circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .home-page .hero-art img {
+    max-height: 340px;
+    object-fit: cover;
+  }
+
+  .letter-page .hero-art {
+    display: none;
+  }
+
+  .letter-layout {
+    gap: 14px;
+    padding-top: 0;
   }
 
   .letter-side {
-    grid-template-columns: 1fr;
+    display: flex;
+    gap: 8px;
+    margin: -4px -11px 6px;
+    padding: 0 11px 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .letter-side::-webkit-scrollbar {
+    display: none;
+  }
+
+  .side-block {
+    flex: 0 0 164px;
+    padding: 11px 12px;
+    background: rgba(255, 253, 247, 0.78);
+  }
+
+  .side-block span {
+    font-size: 0.72rem;
+  }
+
+  .side-block strong {
+    font-size: 0.92rem;
+    line-height: 1.45;
   }
 
   .letter-paper {
-    padding: 28px 20px 34px 26px;
+    padding: 26px 18px 34px 25px;
+    box-shadow: var(--mobile-shadow);
     background:
       linear-gradient(90deg, rgba(184, 50, 63, 0.14), rgba(184, 50, 63, 0.14)) 18px 0 / 1px 100% no-repeat,
       repeating-linear-gradient(0deg, transparent 0 36px, rgba(32, 48, 45, 0.055) 36px 37px),
@@ -734,8 +821,10 @@ h1 {
   }
 
   .letter-paper p {
-    font-size: 1.04rem;
-    line-height: 2;
+    font-size: 1.03rem;
+    font-weight: 600;
+    line-height: 1.95;
+    text-align: left;
   }
 
   .letter-paper .letter-to {
@@ -747,16 +836,32 @@ h1 {
   }
 
   .wish-list p {
-    padding: 15px 16px;
+    padding: 14px 15px;
+    line-height: 1.86;
   }
 
   .site-footer {
     flex-wrap: wrap;
     gap: 10px 16px;
+    padding-bottom: 30px;
+  }
+
+  .toast {
+    bottom: max(22px, calc(env(safe-area-inset-bottom, 0) + 18px));
   }
 }
 
 @media print {
+  @page {
+    size: A4;
+    margin: 16mm 15mm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
   body {
     background: #fff;
   }
@@ -782,5 +887,28 @@ h1 {
   .letter-paper {
     box-shadow: none;
     border: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  .letter-paper::before,
+  .letter-paper::after {
+    display: none;
+  }
+
+  .letter-paper p {
+    color: #111;
+    font-size: 12.5pt;
+    font-weight: 500;
+    line-height: 1.9;
+  }
+
+  .wish-list {
+    break-inside: avoid;
+  }
+
+  .wish-list p {
+    border-left: 2pt solid #b8893d;
+    background: #fff;
   }
 }

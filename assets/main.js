@@ -46,15 +46,38 @@
     await copyLink();
   }
 
+  async function printPage() {
+    showToast("正在打开打印窗口");
+    try {
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+    } catch (error) {
+      // Font readiness is a nice-to-have; printing should still continue.
+    }
+
+    if (typeof window.print === "function") {
+      window.setTimeout(() => {
+        window.print();
+        window.setTimeout(() => showToast("在打印窗口中选择“保存为 PDF”"), 450);
+      }, 120);
+      return;
+    }
+
+    showToast("当前浏览器不支持直接打印，请使用浏览器菜单保存 PDF");
+  }
+
   document.querySelectorAll("[data-share]").forEach((button) => {
     button.addEventListener("click", sharePage);
   });
 
   document.querySelectorAll("[data-print]").forEach((button) => {
-    button.addEventListener("click", () => window.print());
+    button.addEventListener("click", printPage);
   });
 
   updateProgress();
+  window.setTimeout(updateProgress, 250);
   window.addEventListener("scroll", updateProgress, { passive: true });
   window.addEventListener("resize", updateProgress);
+  window.visualViewport?.addEventListener("resize", updateProgress);
 })();
