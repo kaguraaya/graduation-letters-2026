@@ -1,0 +1,20 @@
+{
+  "name": "深圳大学 2026 届毕业寄语",
+  "short_name": "毕业寄语",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#eef7f3",
+  "theme_color": "#eef7f3",
+  "icons": [
+    {
+      "src": "./assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
